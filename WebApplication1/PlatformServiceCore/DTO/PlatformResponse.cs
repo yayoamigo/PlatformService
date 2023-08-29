@@ -20,4 +20,4 @@ namespace PlatformServiceCore.DTO
         public string Cost { get; set; }
     }
 }
-}
+
