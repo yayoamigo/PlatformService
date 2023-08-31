@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformServiceCore.Domain.RepositoryContracts;
+using PlatformServiceCore.Services;
+using PlatformServiceCore.ServicesContracts;
 using PlatformServiceInfrastructure;
 using PlatformServiceInfrastructure.DBContext;
 using PlatformServiceUI;
@@ -12,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<PlatformDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IPlatformRepo, PlatformRepository>();
+builder.Services.AddScoped<IPlatformService, PlatformService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 

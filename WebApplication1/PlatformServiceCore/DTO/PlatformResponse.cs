@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PlatformServiceCore.DTO
 {
-    internal class PlatformResponse
+    public class PlatformResponse
     {
         [Key]
         public int Id { get; set; }

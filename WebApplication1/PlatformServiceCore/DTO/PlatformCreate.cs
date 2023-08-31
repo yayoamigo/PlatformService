@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PlatformServiceCore.DTO
 {
-    internal class PlatformCreate
+    public class PlatformCreate
     {
         
         [Required]
