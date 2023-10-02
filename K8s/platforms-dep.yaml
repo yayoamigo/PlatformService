@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platforms-dep
+  labels:
+    app: platforms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platforms
+  template:
+    metadata:
+      labels:
+        app: platforms
+    spec:
+      containers:
+      - name: platforms
+        image: yayoamigo/platformservice
+        
