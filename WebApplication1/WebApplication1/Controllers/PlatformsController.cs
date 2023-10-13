@@ -9,13 +9,13 @@ namespace PlatformServiceUI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HomeController : ControllerBase
+    public class PlatformsController : ControllerBase
     {
         private readonly IPlatformService _platformService;
 
         private readonly IMapper _mapper;
 
-        public HomeController(IPlatformService platformService, IMapper mapper)
+        public PlatformsController(IPlatformService platformService, IMapper mapper)
         {
             _platformService = platformService;
 
