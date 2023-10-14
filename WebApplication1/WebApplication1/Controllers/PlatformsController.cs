@@ -4,6 +4,7 @@ using PlatformServiceCore.ServicesContracts;
 using AutoMapper;
 using PlatformServiceCore.DTO;
 using PlatformServiceCore.Domain.Entity;
+using PlatformServiceCore.SyncDataServices.Http;
 
 namespace PlatformServiceUI.Controllers
 {
@@ -15,11 +16,15 @@ namespace PlatformServiceUI.Controllers
 
         private readonly IMapper _mapper;
 
-        public PlatformsController(IPlatformService platformService, IMapper mapper)
+        private readonly ICommandDataClient _commandDataClient;
+
+        public PlatformsController(IPlatformService platformService, IMapper mapper, ICommandDataClient commandDataClient)
         {
             _platformService = platformService;
 
             _mapper = mapper;
+
+            _commandDataClient = commandDataClient;
         }
 
         [HttpGet]
@@ -48,6 +53,16 @@ namespace PlatformServiceUI.Controllers
             var result = await _platformService.CreatePlatform(platform);
             if (result)
             {
+                try
+                {
+                    var platformDto = _mapper.Map<PlatformResponse>(platform);
+                    await _commandDataClient.SendPlatformToCommand(platformDto);
+
+                }catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                    
+                }
                 return CreatedAtRoute(nameof(GetPlatformById), new { Id = platform.Id }, _mapper.Map<PlatformResponse>(platform));
             }
             return BadRequest();

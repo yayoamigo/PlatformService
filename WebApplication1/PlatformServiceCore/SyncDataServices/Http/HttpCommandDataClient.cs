@@ -1,20 +1,24 @@
-﻿using PlatformServiceCore.DTO;
+﻿using AutoMapper;
+using PlatformServiceCore.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace PlatformServiceCore.SyncDataServices.Http
 {
     public class HttpCommandDataClient : ICommandDataClient
     {
         private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public HttpCommandDataClient(HttpClient httpClient)
+        public HttpCommandDataClient(HttpClient httpClient, IConfiguration configuration)
         {
               _httpClient = httpClient;
+            _configuration = configuration;
         }
 
 
@@ -25,7 +29,16 @@ namespace PlatformServiceCore.SyncDataServices.Http
                 Encoding.UTF8,
                 "application/json"
                 );
-            var response = await _httpClient.PostAsync("http://localhost:8161/api/c/Platforms", httpContent);
+            var response = await _httpClient.PostAsync($"{_configuration["DefaultUrl"]}", httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("--> Sync POST to Command Service was OK!");
+            }
+            else
+            {
+                Console.WriteLine("--> Sync POST to Command Service was NOT OK!");
+            }
         }
     }
 }
